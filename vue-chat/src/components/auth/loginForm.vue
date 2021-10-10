@@ -1,4 +1,5 @@
 <script setup lang='ts'>
+import { changeAuthComponent, authStatus } from '../../store/auth.store';
 </script>
 
 <template>
@@ -36,6 +37,7 @@
             <span>还没有账号？</span>
             <a
                 class="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300"
+                @click="changeAuthComponent(authStatus.regist)"
             >立即注册</a>
         </p>
     </form>
