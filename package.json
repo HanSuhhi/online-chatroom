@@ -1,0 +1,22 @@
+{
+  "name": "online-chatroom",
+  "version": "1.0.0",
+  "description": "power by @Nest &amp; @Vue",
+  "main": "index.js",
+  "scripts": {
+    "start:vue": "cd vue-chat && yarn dev",
+    "start:nest": "cd nest-chat && yarn start:dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HanSuhhi/online-chatroom.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HanSuhhi/online-chatroom/issues"
+  },
+  "homepage": "https://github.com/HanSuhhi/online-chatroom#readme"
+}

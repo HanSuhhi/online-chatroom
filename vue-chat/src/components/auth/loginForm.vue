@@ -1,10 +1,11 @@
 <script setup lang='ts'>
 import { changeAuthComponent, authStatus } from '../../store/auth.store';
+import FormTitle from './formTitle.vue';
 </script>
 
 <template>
     <form class="mt-8 space-y-6" action="#" method="POST">
-        <input type="hidden" name="remember" value="true" />
+        <FormTitle title="欢迎回来"></FormTitle>
         <div class="relative">
             <label class="login-form-label">账号</label>
             <input class="login-form-input" placeholder="请输入账号" />
@@ -37,7 +38,7 @@ import { changeAuthComponent, authStatus } from '../../store/auth.store';
             <span>还没有账号？</span>
             <a
                 class="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300"
-                @click="changeAuthComponent(authStatus.regist)"
+                @click="changeAuthComponent(authStatus.regist.symbol)"
             >立即注册</a>
         </p>
     </form>

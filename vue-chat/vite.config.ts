@@ -8,10 +8,10 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 10231,
     proxy: {
-      "/api/": {
+      "/nest/": {
         target: "http://localhost:4563",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/nest/, ""),
       },
     },
   },

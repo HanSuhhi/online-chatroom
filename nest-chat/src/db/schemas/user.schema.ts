@@ -16,7 +16,7 @@ export class User extends Document {
   @ApiProperty({
     default: "123456",
   })
-  password: String;
+  password: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
