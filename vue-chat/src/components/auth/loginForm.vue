@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { changeAuthComponent, authStatus } from '../../store/auth.store';
-import FormTitle from './formTitle.vue';
+import FormTitle from './sub/formTitle.vue';
 </script>
 
 <template>

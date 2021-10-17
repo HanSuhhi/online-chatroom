@@ -8,7 +8,7 @@ const props = defineProps(["title"])
         <div class="text-center">
             <h2 class="mt-6 text-3xl font-bold text-gray-900">{{ props.title }}</h2>
         </div>
-        <div class="flex items-center justify-center space-x-2">
+        <div class="flex items-center justify-center space-x-2 mt-4">
             <span class="h-px w-16 bg-gray-200" v-for="item in 4"></span>
         </div>
     </div>

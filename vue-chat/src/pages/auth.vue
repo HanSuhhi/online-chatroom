@@ -7,7 +7,7 @@ import AuthBg from "../components/auth/authBg.vue";
 </script>
 
 <template>
-    <div class="auth">
+    <div class="auth border-t-8 border-b-8 border-yellow-300">
         <div class="auth-box">
             <!-- 左图 -->
             <AuthBg></AuthBg>

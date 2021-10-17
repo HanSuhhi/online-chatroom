@@ -4,15 +4,15 @@ import { onMounted } from '@vue/runtime-core';
 import { ref } from 'vue';
 import { Captcha, getCAPTCHA, RegistForm, sendRegist, } from '../../api/auth/auth';
 import { changeAuthComponent, authStatus } from '../../store/auth.store';
-import FormTitle from './formTitle.vue';
-import PasswordStrength from './passwordStrength.vue';
+import FormTitle from './sub/formTitle.vue';
+import PasswordStrength from './sub/passwordStrength.vue';
+import FormItem from './sub/formItem.vue';
 
 // 验证码相关
 let svgCaptcha: Captcha = reactive({
   id: "",
   data: ""
 })
-
 const getCaptcha = () => getCAPTCHA().then((res) => {
   const { data, id } = res.data
   svgCaptcha.data = data;
@@ -22,7 +22,9 @@ const getCaptcha = () => getCAPTCHA().then((res) => {
 
 // 密码强度相关
 const isPasswordFocus = ref(false)
-const changePasswordFocus = () => isPasswordFocus.value = !isPasswordFocus.value
+const changePasswordFocus = () => {
+  isPasswordFocus.value = !isPasswordFocus.value
+}
 
 // 注册相关
 const registForm: RegistForm = reactive({
@@ -31,11 +33,20 @@ const registForm: RegistForm = reactive({
   captchaId: "",
   captchaText: ""
 })
-
 const regist = () => {
   sendRegist(registForm).then(res => {
     console.log(res);
   })
+}
+
+// 组件传值相关
+export type FormItemValue = {
+  value: string;
+  logo: keyof RegistForm | string
+}
+const getValue = ({ value, logo }: FormItemValue) => {
+  if (logo === 'repassword') return
+  registForm[logo as keyof RegistForm] = value
 }
 
 onMounted(getCaptcha)
@@ -46,36 +57,41 @@ onMounted(getCaptcha)
   <TransitionGroup name="list-complete" tag="form" class="mt-8 space-y-6" action="#" method="POST">
     <FormTitle title="初次光临" class="list-complete-item" key="1"></FormTitle>
     <!-- 账号 -->
-    <div class="relative list-complete-item" key="2">
-      <label class="login-form-label">账号</label>
-      <input class="login-form-input" placeholder="请输入账号" v-model="registForm.username" />
-    </div>
+    <FormItem
+      :value="registForm.username"
+      title="账号"
+      class="list-complete-item"
+      logo="username"
+      key="2"
+      @post-value="getValue"
+    ></FormItem>
     <!-- 密码 -->
-    <div class="mt-8 content-center list-complete-item" key="3">
-      <label class="login-form-label">密码</label>
-      <input
+    <div class="list-complete-item" key="3">
+      <FormItem
+        :value="registForm.password"
+        title="密码"
+        logo="password"
+        type="password"
         @focusin="changePasswordFocus"
         @focusout="changePasswordFocus"
-        class="login-form-input"
-        placeholder="请输入密码"
-        type="password"
-        autocomplete="on"
-        v-model="registForm.password"
-      />
+        @post-value="getValue"
+      ></FormItem>
       <PasswordStrength :password="registForm.password" v-show="isPasswordFocus"></PasswordStrength>
     </div>
     <!-- 确认 -->
-    <div class="mt-8 content-center list-complete-item" key="4">
-      <label class="login-form-label">确认密码</label>
-      <input class="login-form-input" autocomplete="on" type="password" placeholder="请确认密码" />
-    </div>
+    <FormItem
+      :value="registForm.password"
+      title="确认密码"
+      logo="repassword"
+      type="password"
+      class="list-complete-item"
+      key="4"
+      @post-value="getValue"
+    ></FormItem>
     <!-- 验证码 -->
-    <div class="mt-8 content-center list-complete-item" key="5">
-      <label class="login-form-label">验证码</label>
-      <div class="flex">
-        <input class="login-form-input" placeholder="请输入验证码" v-model="registForm.captchaText" />
-        <div v-html="svgCaptcha.data" @click="getCaptcha"></div>
-      </div>
+    <div class="flex justify-between list-complete-item" key="5">
+      <FormItem :value="registForm.password" logo="captchaText" title="验证码" @post-value="getValue"></FormItem>
+      <div v-html="svgCaptcha.data" @click="getCaptcha"></div>
     </div>
     <!-- 按钮 -->
     <div class="list-complete-item" key="6">
@@ -99,12 +115,6 @@ onMounted(getCaptcha)
   </TransitionGroup>
 </template>
 <style scoped lang="scss">
-.login-form-la .login-form-label {
-  @apply ml-3 text-sm font-bold text-gray-700 tracking-wide ml-3 text-sm font-bold text-gray-700 tracking-wide;
-}
-.login-form-input {
-  @apply w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500;
-}
 .list-complete {
   &-item {
     transition: all 0.4s ease;
