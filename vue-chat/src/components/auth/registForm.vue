@@ -50,7 +50,7 @@ const regist = async () => {
 
   if (await watchRegistForm(registForm)) {
     sendRegist(formdata).then((res) => {
-      alert(`${res.data} 用户注册成功`)
+      alert(`${res.data} `)
       changeAuthComponent(authStatus.login.symbol)
     });
   } else {
@@ -86,7 +86,11 @@ const inputErrors = reactive({
     msg: "",
   },
 });
-const haveError = computed(() => !inputErrors.captcha.status && !inputErrors.password.status && !inputErrors.repassword.status && !inputErrors.username.status)
+const haveError = computed(() => {
+  const haveError = !inputErrors.captcha.status && !inputErrors.password.status && !inputErrors.repassword.status && !inputErrors.username.status
+  const inputs = Boolean(registForm.captchaText) && Boolean(registForm.password) && Boolean(registForm.repassword) && Boolean(registForm.captchaText)
+  return inputs && haveError
+})
 
 type ErrorKeys = keyof typeof inputErrors;
 
